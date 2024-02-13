@@ -26,3 +26,21 @@ it('shoud be able to like a question', function () {
         'unlike' => 0,
     ]);
 });
+
+it('should not be able to like a question twice', function () {
+    // Arrange
+    $user = User::factory()->create();
+    $question = Question::factory()->create();
+
+    actingAs($user);
+
+    // Act
+    post(route('question.like', $question));
+    post(route('question.like', $question));
+    post(route('question.like', $question));
+    post(route('question.like', $question));
+
+    // Assert
+    expect($user->votes()->where('question_id', $question->id)->get())
+        ->toHaveCount(1);
+});
