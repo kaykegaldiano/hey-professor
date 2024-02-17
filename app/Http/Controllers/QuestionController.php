@@ -9,11 +9,22 @@ class QuestionController extends Controller
 {
     public function store(): RedirectResponse
     {
-        $validated = request()->validate([
-            'question' => ['required', 'min:10', 'ends_with:?'],
+        request()->validate([
+            'question' => [
+                'required',
+                'min:10',
+                function (string $attribute, mixed $value, \Closure $fail) {
+                    if (! str_ends_with($value, '?')) {
+                        $fail('Are you sure that this is a question? It is missing the question mark in the end.');
+                    }
+                },
+            ],
         ]);
 
-        Question::create($validated);
+        Question::create([
+            'question' => request()->question,
+            'draft' => true,
+        ]);
 
         return to_route('dashboard');
     }
