@@ -57,7 +57,7 @@ it('checks if ends with question mark', function () {
     assertDatabaseCount('questions', 0);
 });
 
-it(' has at least 10 characters', function () {
+it('has at least 10 characters', function () {
     // Arrange
     $user = User::factory()->create();
     actingAs($user);
