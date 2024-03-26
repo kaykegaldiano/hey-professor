@@ -3,11 +3,15 @@
     'method' => null,
 ])
 
-<form action="{{ $action }}" method="post">
+<form action="{{ $action }}" method="post" {{ $attributes }}>
     @csrf
 
     @if ($method === 'put')
         @method('PUT')
+    @endif
+
+    @if($method === 'patch')
+        @method('PATCH')
     @endif
 
     @if($method === 'delete')
